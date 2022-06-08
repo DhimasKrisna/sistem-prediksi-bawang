@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +23,7 @@ Route::post('user/create', [UserController::class, 'store'])->name('user.store')
 Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::patch('user/{user}/edit', [UserController::class, 'update'])->name('user.update');
 Route::delete('user/{user}/delete', [UserController::class, 'delete'])->name('user.delete');
+//
+Route::get('/login', [AuthController::class, 'login'])->name('login.index');
+Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
+Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
