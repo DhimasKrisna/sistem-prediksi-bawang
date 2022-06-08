@@ -15,15 +15,23 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {return view('welcome');});
+//
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    
+    Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
+    
+    Route::group(['middleware' => 'isAdmin'], function(){
+        Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('user/create', [UserController::class, 'store'])->name('user.store');
+        Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::patch('user/{user}/edit', [UserController::class, 'update'])->name('user.update');
+        Route::delete('user/{user}/delete', [UserController::class, 'delete'])->name('user.delete');
+    });
+});
 
-Route::get('/user', [UserController::class, 'index'])->name('user.index');
-//
-Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-Route::post('user/create', [UserController::class, 'store'])->name('user.store');
-Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
-Route::patch('user/{user}/edit', [UserController::class, 'update'])->name('user.update');
-Route::delete('user/{user}/delete', [UserController::class, 'delete'])->name('user.delete');
-//
-Route::get('/login', [AuthController::class, 'login'])->name('login.index');
-Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
-Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
+Route::group(['middleware' => 'guest'], function(){
+    Route::get('/login', [AuthController::class, 'login'])->name('login.index');
+    Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
+});
+
