@@ -60,7 +60,8 @@ class UserController extends Controller
         //
         $request->validate([
             'name' => 'required',
-            'username' => 'required|unique:users'.$user->id,
+            //un:tabel,kolom
+            'username' => 'required|unique:users,username,'.$user->id,
             'role' => 'required',
             'password' => 'nullable|confirmed'
         ]);
@@ -77,6 +78,12 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('user.index')->with('success', 'User Berhasil diubah');
+    }
+
+    public function delete(User $user){
+        $user->delete();
+
+        return redirect()->route('user.index')->with('success', 'User Berhasil dihapus');
     }
 
 }

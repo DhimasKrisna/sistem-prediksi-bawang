@@ -21,9 +21,17 @@
             <div class="mb-3">
                 <label for="role" class="form-label">Sebagai</label>
                 <select class="form-select" aria-label="Default select example" id="role" name="role">
-                    <option selected>-Pilih Role-</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
+                    <option selected disabled>-Pilih Role-</option>
+                    <option value="admin" 
+                        @if(old('role') == 'admin')
+                            selected
+                        @endif
+                    >Admin</option>
+                    <option value="user"
+                        @if(old('role') == 'user')
+                            selected
+                        @endif
+                    >User</option>
                   </select>
             </div>
             <div class="mb-3">

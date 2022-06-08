@@ -16,8 +16,11 @@ class CreateHargasTable extends Migration
         Schema::create('hargas', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
+            $table->integer('tahun');
+            $table->integer('bulan');
+            $table->integer('minggu');
             $table->integer('harga');
-            $table->string('pengisi')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('pengisi')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
