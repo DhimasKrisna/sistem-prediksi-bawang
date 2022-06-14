@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HargaController;
 use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ Route::get('/', function () {return view('welcome');});
 //
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/harga', [HargaController::class, 'index'])->name('harga.index');
     
     Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
     
@@ -27,6 +29,12 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::patch('user/{user}/edit', [UserController::class, 'update'])->name('user.update');
         Route::delete('user/{user}/delete', [UserController::class, 'delete'])->name('user.delete');
+
+        Route::get('/harga/create', [HargaController::class, 'create'])->name('harga.create');
+        Route::post('/harga/create', [HargaController::class, 'store'])->name('harga.store');
+        Route::get('harga/{harga}/edit', [HargaController::class, 'edit'])->name('harga.edit');
+        Route::patch('harga/{harga}/edit', [HargaController::class, 'update'])->name('harga.update');
+        Route::delete('harga/{harga}/delete', [HargaController::class, 'delete'])->name('harga.delete');
     });
 });
 
