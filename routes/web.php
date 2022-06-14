@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HargaController;
@@ -22,6 +23,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/harga', [HargaController::class, 'index'])->name('harga.index');
     Route::get('/tmpharga', [TmpHargaController::class, 'index'])->name('tmpharga.index');
+    Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
     
     Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
     
@@ -44,6 +46,11 @@ Route::group(['middleware' => 'auth'], function(){
         Route::patch('tmpharga/{tmpharga}/edit', [TmphargaController::class, 'update'])->name('tmpharga.update');
         Route::delete('tmpharga/{tmpharga}/delete', [TmphargaController::class, 'delete'])->name('tmpharga.delete');
 
+        Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
+        Route::post('/artikel/create', [ArtikelController::class, 'store'])->name('artikel.store');
+        Route::get('artikel/{artikel}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
+        Route::patch('artikel/{artikel}/edit', [ArtikelController::class, 'update'])->name('artikel.update');
+        Route::delete('artikel/{artikel}/delete', [ArtikelController::class, 'delete'])->name('artikel.delete');
     });
 });
 
