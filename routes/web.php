@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HargaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TmpHargaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,7 @@ Route::get('/', function () {return view('welcome');});
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/harga', [HargaController::class, 'index'])->name('harga.index');
+    Route::get('/tmpharga', [TmpHargaController::class, 'index'])->name('tmpharga.index');
     
     Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
     
@@ -35,6 +37,13 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('harga/{harga}/edit', [HargaController::class, 'edit'])->name('harga.edit');
         Route::patch('harga/{harga}/edit', [HargaController::class, 'update'])->name('harga.update');
         Route::delete('harga/{harga}/delete', [HargaController::class, 'delete'])->name('harga.delete');
+
+        Route::get('/tmpharga/create', [TmphargaController::class, 'create'])->name('tmpharga.create');
+        Route::post('/tmpharga/create', [TmphargaController::class, 'store'])->name('tmpharga.store');
+        Route::get('tmpharga/{tmpharga}/edit', [TmphargaController::class, 'edit'])->name('tmpharga.edit');
+        Route::patch('tmpharga/{tmpharga}/edit', [TmphargaController::class, 'update'])->name('tmpharga.update');
+        Route::delete('tmpharga/{tmpharga}/delete', [TmphargaController::class, 'delete'])->name('tmpharga.delete');
+
     });
 });
 

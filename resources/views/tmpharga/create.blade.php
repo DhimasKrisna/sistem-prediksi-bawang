@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form action="{{route('harga.store')}}" method="post">
+        <form action="{{route('tmpharga.store')}}" method="post">
             @csrf
             <div class="mb-3">
                 <label for="tangal" class="form-label">Tanggal</label>
