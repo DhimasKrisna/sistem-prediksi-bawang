@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TmpHarga;
+use Goutte\Client;
 
 class TmpHargaController extends Controller
 {
     //
     public function index()
     {
-        $tmpharga = Tmpharga::get();
+        $tmpharga = Tmpharga::orderBy('tanggal', 'desc')->get();
 
         $data = [
             'tmphargas' => $tmpharga
@@ -21,7 +22,34 @@ class TmpHargaController extends Controller
 
     public function create()
     {
-        return view('tmpharga.create');
+        
+
+        $client = new Client();
+
+        $crawler = $client->request('POST', 'https://siskaperbapo.jatimprov.go.id/produsen/tabel.nodesign/');
+
+        $scraps = collect();
+
+        $crawler->filter('tr')->each(function ($node) use ($scraps) {
+            $scraps->push($node->text());
+        });
+
+        foreach($scraps as $i => $sc)
+        {
+            $hargas[$i] = explode(" ", $sc);
+        }
+
+        $harga = $hargas[1][8];
+        
+        $data = [
+            'harga' => $harga * 1000
+        ];
+
+
+        
+
+        
+        return view('tmpharga.create',$data);
     }
 
     public function store(Request $request)

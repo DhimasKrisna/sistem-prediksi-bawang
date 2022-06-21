@@ -12,5 +12,9 @@ class TmpHarga extends Model
         'tanggal', 'harga',
     ];
 
+    protected $casts = [
+        'tanggal' => 'datetime'
+    ];
+
     
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Harga;
+use App\Models\TmpHarga;
 use Illuminate\Support\Carbon;
 
 class HargaController extends Controller
@@ -20,9 +21,31 @@ class HargaController extends Controller
         return view('harga.index', $data);
     }
     
-    public function create()
+    public function create(Request $request)
     {
-        return view('harga.create');
+        if($request->tanggal_pilih){
+            $tanggalSekarang = Carbon::parse($request->tanggal_pilih);
+        } else {
+            $tanggalSekarang = Carbon::now();
+        }
+
+        
+        $tanggalAwal = $tanggalSekarang->startOfWeek(Carbon::MONDAY)->format('Y-m-d');
+        $tanggalAkhir = $tanggalSekarang->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+
+        
+        $tmpHarga = TmpHarga::whereBetween('tanggal', [$tanggalAwal, $tanggalAkhir])->get() ;
+        $hargaTertinggi = $tmpHarga->max('harga');
+
+
+        $data = [
+            'hargaTertinggi' => $hargaTertinggi,
+            'request' => $request
+        ];
+
+
+        
+        return view('harga.create', $data);
     }
 
     public function store(Request $request)
@@ -41,7 +64,7 @@ class HargaController extends Controller
         $harga->tanggal = $request->tanggal;
         $harga->tahun = $tmp->year;
         $harga->bulan = $tmp->month;
-        $harga->minggu = $tmp->weekOfMonth;
+        $harga->minggu = $tmp->weekOfYear;
         $harga->harga = $request->harga;
         $harga->pengisi = auth()->user()->id;
         // dd($harga);
@@ -74,7 +97,7 @@ class HargaController extends Controller
         $harga->tanggal = $request->tanggal;
         $harga->tahun = $tmp->year;
         $harga->bulan = $tmp->month;
-        $harga->minggu = $tmp->weekOfMonth;
+        $harga->minggu = $tmp->weekOfYear;
         $harga->harga = $request->harga;
         $harga->pengisi = auth()->user()->id;
         // dd($harga);

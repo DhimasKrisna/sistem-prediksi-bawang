@@ -23,7 +23,7 @@
             @forelse ($tmphargas as $harga)
             <tr>
                 <td>{{ $loop->index+1 }}</td>
-                <td>{{ $harga->tanggal }}</td>
+                <td>{{ $harga->tanggal->isoFormat('dddd, DD-MM-YYYY') }}</td>
                 <td>{{ $harga->harga }}</td>
                 @if (auth()->user()->role == "admin")
                     <td>
