@@ -2,12 +2,12 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form action="{{route('tmpharga.edit')}}" method="post">
+        <form action="{{route('tmpharga.update',$harga->id)}}" method="post">
             @csrf
             @method('patch')
             <div class="mb-3">
                 <label for="tangal" class="form-label">Tanggal</label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{old('tanggal',$harga->tanggal)}}">
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{old('tanggal',$harga->tanggal->format('Y-m-d') )}}">
                 @error('tanggal')
                     <small class="text-danger">{{$message}}</small>
                 @enderror

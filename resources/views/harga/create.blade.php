@@ -16,7 +16,7 @@
         <form action="{{route('harga.store')}}" method="post">
             @csrf
             <div class="mb-3">
-                <label for="tangal" class="form-label">Tanggal {{$request->tanggal_pilih}}</label>
+                <label for="tangal" class="form-label">Tanggal</label>
                 <input type="date" class="form-control" id="tanggal" name="tanggal" onchange="gantiTanggal()" value="{{old('tanggal', $request->tanggal_pilih)}}" >
                 @error('tanggal')
                     <small class="text-danger">{{$message}}</small>

@@ -6,7 +6,8 @@
     </div>
 @endif
 <div class="card">
-    <a href="{{route('tmpharga.create')}}" class="btn btn-primary">Tambah Harga</a>
+    <a class="btn btn-primary" href="{{route('tmpharga.create')}}" class="btn btn-primary">Tambah Harga</a>
+    <a class="btn btn-danger" href="{{route('tmpharga.crawl')}}" class="btn btn-primary">Crawling Harga</a>
     <table class="table mt-2">
         <thead>
             <tr>
