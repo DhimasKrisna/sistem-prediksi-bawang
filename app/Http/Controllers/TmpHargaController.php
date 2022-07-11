@@ -28,15 +28,15 @@ class TmpHargaController extends Controller
         $crawler = $client->request('POST', 'https://siskaperbapo.jatimprov.go.id/produsen/tabel.nodesign/');
         
 
-        $scraps = collect();
+        $scrapsData = collect();
 
-        $crawler->filter('tr')->each(function ($node) use ($scraps) {
-            $scraps->push($node->text());
+        $crawler->filter('tr')->each(function ($node) use ($scrapsData) {
+            $scrapsData->push($node->text());
         });
 
         
 
-        foreach($scraps as $i => $sc)
+        foreach($scrapsData as $i => $sc)
         {
             $hargas[$i] = explode(" ", $sc);
         }
@@ -56,14 +56,21 @@ class TmpHargaController extends Controller
             'tanggal' => 'required|date',
             'harga' => 'required'
         ]);
+        $hargaLama = TmpHarga::where('tanggal', $request->tanggal->first());
 
-        // dd($request->all());
+        if($hargaLama){
+            $hargaLama->tanggal = $request->tanggal;
+            $hargaLama->harga = $request->harga;
+            $hargaLama->save();
+        }else{
+            $harga = new Tmpharga;
+        
+            $harga->tanggal = $request->tanggal;
+            $harga->harga = $request->harga;
+            // dd($harga);
+            $harga->save();
+        }
 
-        $harga = new Tmpharga;
-        $harga->tanggal = $request->tanggal;
-        $harga->harga = $request->harga;
-        // dd($harga);
-        $harga->save();
 
         return redirect()->route('tmpharga.index')->with('success', 'Data Berhasil ditambahkan');
     }
@@ -159,19 +166,19 @@ class TmpHargaController extends Controller
     public function scrap($tanggal){
         $client = new Client();
 
-            
+            //scraping data
             $crawler = $client->request('GET', 'https://siskaperbapo.jatimprov.go.id/produsen/grafik/?tanggal='.$tanggal.'&bhnpokok=Bawang%20Merah');
             //https://siskaperbapo.jatimprov.go.id/produsen/grafik/?tanggal=2022-04-30&bhnpokok=Bawang%20Merah
             // dd($crawler);
 
-            $scraps = collect();
+            $scrapsData = collect();
 
-            $crawler->filter('script')->each(function ($node) use ($scraps) {
-                $scraps->push($node->text());
+            $crawler->filter('script')->each(function ($node) use ($scrapsData) {
+                $scrapsData->push($node->text());
             });
-            // dd($scraps[4]);
+            // dd($scrapsData[4]);
 
-            $tmp = $scraps[4];
+            $tmp = $scrapsData[4];
             $stringJsonFalse = substr($tmp,671,-530);
             // dd($stringJsonFalse);
             $stringA = substr($stringJsonFalse,0,193);
@@ -181,8 +188,6 @@ class TmpHargaController extends Controller
             
             $dataJson = json_decode($fullJson);
             // dd($dataJson);
-
-            //mapping ulang data
 
             //mapping data pasar
             $dataPasarMapping = [];
@@ -215,7 +220,7 @@ class TmpHargaController extends Controller
                     'detail' => $dataHargaMapping[$i]
                 ];
             }
-            // dd($dataFinalMapping);
+            // dd($dataFinalMapping[1]);
             return $dataFinalMapping;
     }
 

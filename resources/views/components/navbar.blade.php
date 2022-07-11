@@ -1,39 +1,64 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">{{auth()->user()->username ?? ''}}</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          @auth
-              @if(auth()->user()->role == "admin")
-                <li class="nav-item">
-                  <a class="nav-link" href="{{route('user.index')}}">USER</a>
-                </li>
-              @endif
-          @endauth
-          
-        </ul>
-        @guest
-          <div class="d-flex">
-            <a href="{{route('login.index')}}" class="btn btn-primary">Login</a>
-          </div>      
-        @endguest
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
 
-        @auth
-          <div class="d-flex">
-            <form  action="{{route('login.logout')}}" method="post">
-              @csrf
-              <button class="btn btn-danger" type="submit">LogOut</button>
-            </form>
-          </div>    
-        @endauth
-        
-        
-      </div>
-    </div>
-  </nav>
+  <!-- Main Content -->
+  <div id="content">
+
+      <!-- Topbar -->
+      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+              <li class="nav-item dropdown no-arrow d-sm-none">
+                  <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-search fa-fw"></i>
+                  </a>
+                  <!-- Dropdown - Messages -->
+                  <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                      aria-labelledby="searchDropdown">
+                      <form class="form-inline mr-auto w-100 navbar-search">
+                          <div class="input-group">
+                              <input type="text" class="form-control bg-light border-0 small"
+                                  placeholder="Search for..." aria-label="Search"
+                                  aria-describedby="basic-addon2">
+                              <div class="input-group-append">
+                                  <button class="btn btn-primary" type="button">
+                                      <i class="fas fa-search fa-sm"></i>
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </li>
+
+
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{auth()->user()->username ?? 'user'}}</span>
+                  </a>
+                  <!-- Dropdown - User Information -->
+                  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                      aria-labelledby="userDropdown">
+                      <a class="dropdown-item" href="#">
+                          <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                          Ganti Password
+                      </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                          Logout
+                      </a>
+                  </div>
+              </li>
+
+          </ul>
+
+      </nav>
+      <!-- End of Topbar -->

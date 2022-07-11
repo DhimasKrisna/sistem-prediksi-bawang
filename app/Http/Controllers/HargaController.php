@@ -10,13 +10,23 @@ use Illuminate\Support\Carbon;
 class HargaController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $harga = Harga::get();
+        if($request->tahun){
+            $harga = Harga::where('tahun', $request->tahun)->get();
+        }else{
+            $harga = Harga::get();
+        }
+        
+        
 
         $data = [
             'hargas' => $harga
         ];
+
+        // dd($request->tahun);
+
+        
         
         return view('harga.index', $data);
     }
