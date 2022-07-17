@@ -13,7 +13,30 @@
 <div class="d-flex bd-highlight mb-4">
     <h1 class="h3 mb-0 text-gray-800 flex-grow-1 bd-highlight">Halaman Harga</h1>
     
-    <a href="{{route('harga.create')}}" class="btn btn-primary bd-highlight">Tambah Harga</a>
+    @if (auth()->user()->role == 'admin')
+        <a href="{{route('harga.create')}}" class="btn btn-primary bd-highlight">Tambah Harga</a>
+    @endif
+</div>
+
+<div class="card mb-5">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Grafik Bawang Merah</h6>
+    </div>
+
+    <div class="card-body">
+        @if ($hargas->isNotEmpty())
+            <div class="chart-area">
+                <canvas id="myAreaChart"></canvas>
+            </div>
+            
+        @else
+            <h3 class="text-center" >Tidak ada data</h3>
+        @endif
+        
+        
+    </div>
+
+    
 </div>
 
 <div class="card">
@@ -79,7 +102,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5">Tidak ada data</td>
+                    <td colspan="5" class="text-center">Tidak ada data</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -99,6 +122,92 @@
                 select: true
             } );
         } );
+    </script>
+
+    <script src="{{asset('vendor/chart.js/Chart.min.js')}}"></script>
+    <script>
+        $(function() {
+            //fetch data chart
+            $.ajax({
+                url: "{{route('harga.chart', ['tahun' => $tahun])}}",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    var data = data
+
+                    console.log(data)
+
+                    // Area Chart Example
+                    var ctx = document.getElementById("myAreaChart");
+                    var myLineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: data,
+                        options: {
+                            maintainAspectRatio: false,
+                            layout: {
+                                padding: {
+                                    left: 10,
+                                    right: 25,
+                                    top: 25,
+                                    bottom: 0
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    time: {
+                                        unit: 'date'
+                                    },
+                                    gridLines: {
+                                        display: false,
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        maxTicksLimit: 7
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        maxTicksLimit: 5,
+                                        padding: 10,
+                                    },
+                                    gridLines: {
+                                        color: "rgb(234, 236, 244)",
+                                        zeroLineColor: "rgb(234, 236, 244)",
+                                        drawBorder: false,
+                                        borderDash: [2],
+                                        zeroLineBorderDash: [2]
+                                    }
+                                }],
+                            },
+                            legend: {
+                                display: false
+                            },
+                            tooltips: {
+                                backgroundColor: "rgb(255,255,255)",
+                                bodyFontColor: "#858796",
+                                titleMarginBottom: 10,
+                                titleFontColor: '#6e707e',
+                                titleFontSize: 14,
+                                borderColor: '#dddfeb',
+                                borderWidth: 1,
+                                xPadding: 15,
+                                yPadding: 15,
+                                displayColors: false,
+                                intersect: false,
+                                mode: 'index',
+                                caretPadding: 10,
+                                callbacks: {
+                                    label: function(tooltipItem, chart) {
+                                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                        return datasetLabel + ': ' + tooltipItem.yLabel;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
     </script>
 
 @endsection

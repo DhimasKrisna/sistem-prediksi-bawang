@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HargaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SvrController;
 use App\Http\Controllers\TmpHargaController;
 /*
@@ -22,10 +23,21 @@ Route::get('/', function () {return view('welcome');});
 //
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
     Route::get('/harga', [HargaController::class, 'index'])->name('harga.index');
+    Route::get('/hargaChart', [HargaController::class, 'chart'])->name('harga.chart');
+
     Route::get('/tmpharga', [TmpHargaController::class, 'index'])->name('tmpharga.index');
+
     Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+    Route::get('/artikel/{artikel}', [ArtikelController::class, 'baca'])->name('artikel.baca');
+
     Route::get('/svr', [SvrController::class, 'index'])->name('svr.index');
+
+    Route::get('/login/gantiPassword', [AuthController::class, 'gantiPassword'])->name('login.gantiPass');
+    Route::post('/login/gantiPassword', [AuthController::class, 'gantiPasswordAct'])->name('login.gantiPassAct');
     
     Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
     

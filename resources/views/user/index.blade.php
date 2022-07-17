@@ -12,8 +12,10 @@
 @endif
 <div class="d-flex bd-highlight mb-4">
     <h1 class="h3 mb-0 text-gray-800 flex-grow-1 bd-highlight">Halaman User</h1>
-    
-    <a href="{{route('user.create')}}" class="btn btn-primary bd-highlight">Tambah User</a>
+
+    @if (auth()->user()->role == 'admin')
+        <a href="{{route('user.create')}}" class="btn btn-primary bd-highlight">Tambah User</a>  
+    @endif
 </div>
 
 <div class="card">

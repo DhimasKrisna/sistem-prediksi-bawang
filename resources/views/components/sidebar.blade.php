@@ -17,7 +17,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{route('dashboard.index')}}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Halaman Utama</span></a>
         </li>
@@ -70,12 +70,15 @@
                 <span>Artikel</span></a>
         </li>
 
-        <!-- Nav Item - User -->
-        <li class="nav-item">
-            <a class="nav-link" href="{{route('user.index')}}">
-                <i class="fas fa-fw fa-user"></i>
-                <span>User</span></a>
-        </li>
+        @if (auth()->user()->role == 'admin')
+            <!-- Nav Item - User -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('user.index')}}">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>User</span></a>
+            </li>  
+        @endif
+        
 
 
         <!-- Sidebar Toggler (Sidebar) -->

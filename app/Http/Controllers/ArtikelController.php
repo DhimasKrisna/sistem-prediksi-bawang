@@ -10,13 +10,24 @@ class ArtikelController extends Controller
     //
     public function index()
     {
-        $artikel = Artikel::get();
+        $artikel = Artikel::with(["getPengisi"])->get();
 
         $data = [
             'artikels' => $artikel
         ];
-        
+
         return view('artikel.index', $data);
+    }
+
+    public function baca(Artikel $artikel)
+    {
+        $artikel = Artikel::with(["getPengisi"])->find($artikel->id);
+
+        $data = [
+            'artikel' => $artikel
+        ];
+
+        return view('artikel.baca', $data);
     }
 
     public function create()
@@ -74,10 +85,10 @@ class ArtikelController extends Controller
         return redirect()->route('artikel.index')->with('success', 'Artikel Berhasil diubah');
     }
 
-    public function delete(Artikel $artikel){
+    public function delete(Artikel $artikel)
+    {
         $artikel->delete();
 
         return redirect()->route('artikel.index')->with('success', 'Artikel Berhasil dihapus');
     }
-
 }

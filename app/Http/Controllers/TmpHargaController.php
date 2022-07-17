@@ -149,15 +149,19 @@ class TmpHargaController extends Controller
         foreach($dataFinalMapping[1]['detail'] as $data){
             $hargaLama = TmpHarga::where('tanggal', $data['tanggal'])->first();
 
-            if($hargaLama){
-                $hargaLama->harga = $data['harga'];
-                $hargaLama->save();
-            }else{
-                $harga = new TmpHarga();
-                $harga->tanggal = $data['tanggal'];
-                $harga->harga = $data['harga'];
-                $harga->save();
+            if($data['harga']){
+                if($hargaLama){
+                    $hargaLama->harga = $data['harga'];
+                    $hargaLama->save();
+                }else{
+                    $harga = new TmpHarga();
+                    $harga->tanggal = $data['tanggal'];
+                    $harga->harga = $data['harga'];
+                    $harga->save();
+                }
             }
+
+            
         }
 
         return redirect()->route('tmpharga.index')->with('success', 'Data Berhasil di Crawling');

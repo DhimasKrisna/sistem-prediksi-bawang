@@ -14,8 +14,11 @@
 <div class="d-flex bd-highlight mb-4">
     <h1 class="h3 mb-0 text-gray-800 flex-grow-1 bd-highlight">Halaman Semua Harga Bawang Merah</h1>
 
-    <a class="btn btn-primary ml-2 bd-highlight" href="{{route('tmpharga.create')}}">Tambah Harga</a>
-    <a class="btn btn-danger ml-2 bd-highlight" href="{{route('tmpharga.crawl')}}">Crawling Harga</a>
+    @if (auth()->user()->role == 'admin')
+        <a class="btn btn-primary ml-2 bd-highlight" href="{{route('tmpharga.create')}}">Tambah Harga</a>
+        <a class="btn btn-danger ml-2 bd-highlight" href="{{route('tmpharga.crawl')}}">Crawling Harga</a>    
+    @endif
+    
 </div>
 
 <div class="card pd-2">

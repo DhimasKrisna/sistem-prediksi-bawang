@@ -13,7 +13,9 @@
 <div class="d-flex bd-highlight mb-4">
     <h1 class="h3 mb-0 text-gray-800 flex-grow-1 bd-highlight">Halaman Artikel</h1>
     
-    <a href="{{route('artikel.create')}}" class="btn btn-primary bd-highlight">Tambah Artikel</a>
+    @if (auth()->user()->role == 'admin')
+        <a href="{{route('artikel.create')}}" class="btn btn-primary bd-highlight">Tambah Artikel</a>    
+    @endif
 </div>
 
 <div class="card">
@@ -28,10 +30,7 @@
                     <th scope="col">Judul</th>
                     <th scope="col">Pengisi</th>
                     <th scope="col">Isi</th>
-                    @if (auth()->user()->role == "admin")
-                        <th scope="col">Action</th>
-                    @endif
-                    
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,41 +38,43 @@
                 <tr>
                     <td>{{ $loop->index+1 }}</td>
                     <td>{{ $artikel->judul }}</td>
-                    <td>{{ $artikel->pengisi }}</td>
-                    <td>{{ $artikel->isi }}</td>
-                    @if (auth()->user()->role == "admin")
+                    <td>{{ $artikel->getPengisi->username }}</td>
+                    <td style="max-width:400px" >{{ Illuminate\Support\Str::words($artikel->isi, 20)."..."  }}</td>
                         <td>
-                            <a href="{{route('artikel.edit',$artikel->id)}}" class="btn btn-warning">Edit</a>
-    
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-hapus-{{$artikel->id}}">
-                                Hapus
-                            </button>
+                            <a href="{{route('artikel.baca',$artikel->id)}}" class="btn btn-primary">Lihat</a>
+                            @if (auth()->user()->role == "admin")
+                                <a href="{{route('artikel.edit',$artikel->id)}}" class="btn btn-warning">Edit</a>
+        
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-hapus-{{$artikel->id}}">
+                                    Hapus
+                                </button>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal-hapus-{{$artikel->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Artikel</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Apakah anda yakin akan menghapus Artikel ini?
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <form action="{{route('artikel.delete',$artikel->id)}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            @endif
                             
-                            <!-- Modal -->
-                            <div class="modal fade" id="modal-hapus-{{$artikel->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Artikel</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                    Apakah anda yakin akan menghapus Artikel ini?
-                                    </div>
-                                    <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                    <form action="{{route('artikel.delete',$artikel->id)}}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger">Hapus</button>
-                                    </form>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
                         </td>
-                    @endif
                     
                 </tr>
                 @empty

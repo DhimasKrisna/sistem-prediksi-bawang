@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -32,5 +34,22 @@ class AuthController extends Controller
     public function logout(){
         auth()->logout();
         return redirect()->route('login.index');
+    }
+
+    public function gantiPassword(){
+        return view('auth.gantiPass');
+    }
+
+    public function gantiPasswordAct(Request $request){
+        $request->validate([
+            'password' => 'required|confirmed',
+            'password_lama' => 'current_password:web'
+        ]);
+
+        $user = User::find(auth()->user()->id);
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('login.gantiPass')->with('success','password berhasil diganti');
     }
 }

@@ -1,6 +1,10 @@
 @extends('template.template')
+@section('customCSS')
+    <!-- Custom styles Datatables-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
+@endsection
 @section('content')
-<div class="card">
+<div class="card mb-3">
     <div class="card-body">
         <div class="progress d-none" id="progress-bar">
             <div id="loadbar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -20,15 +24,20 @@
         </form>
     </div>
 </div>
+
 @if ($request->tanggal)
     <div class="card">
-        <div class="card-body">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Crawling Data</h6>
             <form action="{{route('tmpharga.storeCrawl')}}" method="POST">
                 @csrf
                 <input type="hidden" name="tanggal" value="{{$request->tanggal}}">
                 <button type="submit" class="btn btn-primary">Simpan Data</button>
             </form>
-            <table class="table mt-2">
+        </div>
+        <div class="card-body">
+            
+            <table id="table" class="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -46,7 +55,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4">Tidak ada data</td>
+                        <td colspan="3">Tidak ada data</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -82,5 +91,15 @@
                 }, 250);
             }, 250); // WAIT 1 second
         }
+    </script>
+
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable( {
+                select: true
+            } );
+        } );
     </script>
 @endsection

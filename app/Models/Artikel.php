@@ -13,8 +13,8 @@ class Artikel extends Model
         'judul', 'isi', 'pengisi',
     ];
 
-    public function pengisi()
+    public function getPengisi()
     {
-        return $this->belongsTo('App\Model\User');
+        return $this->belongsTo(User::class,"pengisi");
     }
 }

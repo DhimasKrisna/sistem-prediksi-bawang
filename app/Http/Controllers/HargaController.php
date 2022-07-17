@@ -13,7 +13,7 @@ class HargaController extends Controller
     public function index(Request $request)
     {
         if($request->tahun){
-            $harga = Harga::where('tahun', $request->tahun)->get();
+            $harga = Harga::where('tahun', $request->tahun)->orderBy('minggu', 'asc')->get();
         }else{
             $harga = Harga::get();
         }
@@ -21,10 +21,9 @@ class HargaController extends Controller
         
 
         $data = [
-            'hargas' => $harga
+            'hargas' => $harga,
+            'tahun' => $request->tahun
         ];
-
-        // dd($request->tahun);
 
         
         
@@ -125,6 +124,44 @@ class HargaController extends Controller
         $harga->delete();
 
         return redirect()->route('harga.index')->with('success', 'Data Berhasil dihapus');
+    }
+
+    public function chart(Request $request){
+        
+        $hargas = Harga::where('tahun', $request->tahun)->orderBy('minggu', 'asc')->get();
+        
+
+
+        $labels = [];
+        $data = [];
+
+        foreach ($hargas as $harga) {
+            $labels[] = $harga->minggu;
+            $data[] = $harga->harga;
+        }
+
+        $response = [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => "Harga Bawang Merah",
+                    'lineTension' => 0.3,
+                    'backgroundColor' => "rgba(78, 115, 223, 0.05)",
+                    'borderColor' => "rgba(78, 115, 223, 1)",
+                    'pointRadius' => 3,
+                    'pointBackgroundColor' => "rgba(78, 115, 223, 1)",
+                    'pointBorderColor' => "rgba(78, 115, 223, 1)",
+                    'pointHoverRadius' => 3,
+                    'pointHoverBackgroundColor' => "rgba(78, 115, 223, 1)",
+                    'pointHoverBorderColor' => "rgba(78, 115, 223, 1)",
+                    'pointHitRadius' => 10,
+                    'pointBorderWidth' => 2,
+                    'data' => $data
+                ]
+            ],
+        ];
+
+        return response()->json($response);
     }
 
 }
