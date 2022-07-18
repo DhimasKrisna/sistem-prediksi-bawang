@@ -80,7 +80,7 @@ class HargaController extends Controller
         // dd($harga);
         $harga->save();
 
-        return redirect()->route('harga.create')->with('success', 'Data Berhasil ditambahkan');
+        return redirect()->route('harga.index',"?tahun=2022")->with('success', 'Data Berhasil ditambahkan');
     }
 
     public function edit(Harga $harga)
@@ -118,7 +118,7 @@ class HargaController extends Controller
         // $user->role = $request->role;
         // $user->save();
 
-        return redirect()->route('harga.index')->with('success', 'Data Berhasil diubah');
+        return redirect()->route('harga.index',"?tahun=2022")->with('success', 'Data Berhasil diubah');
     }
 
     public function delete(Harga $harga){

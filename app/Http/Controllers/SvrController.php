@@ -13,7 +13,7 @@ class SvrController extends Controller
 {
     //
     public function index(Request $request){
-        $hargas = Harga::get();
+        $hargas = Harga::where('tahun', Carbon::now()->year)->get();
         // dd($hargas);
 
         $samples = [];
@@ -36,7 +36,7 @@ class SvrController extends Controller
 
         // dd($regression->predict([29, 7, 2022]));
 
-        $harga = Harga::get();
+        $harga = Harga::where('tahun', Carbon::now()->year)->get();
 
         
 

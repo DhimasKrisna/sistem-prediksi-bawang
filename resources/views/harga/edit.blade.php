@@ -7,7 +7,7 @@
             @method('patch')
             <div class="mb-3">
                 <label for="tangal" class="form-label">Tanggal</label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{old('tanggal',$harga->tanggal->format('Y-m-d'))}}">
+                <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{old('tanggal',$harga->tanggal)}}">
                 @error('tanggal')
                     <small class="text-danger">{{$message}}</small>
                 @enderror
