@@ -62,7 +62,7 @@
                 @forelse ($hargas as $harga)
                 <tr>
                     <td>{{ $loop->index+1 }}</td>
-                    <td>{{ $harga->tanggal }}</td>
+                    <td>{{ Illuminate\Support\Carbon::parse($harga->tanggal)->isoFormat('dddd, DD-MM-YYYY') }}</td>
                     <td>{{ $harga->minggu }}</td>
                     <td>{{ $harga->harga }}</td>
                     @if (auth()->user()->role == "admin")

@@ -25,6 +25,7 @@ class HargaController extends Controller
             'tahun' => $request->tahun
         ];
 
+
         
         
         return view('harga.index', $data);
@@ -79,7 +80,7 @@ class HargaController extends Controller
         // dd($harga);
         $harga->save();
 
-        return redirect()->route('harga.index')->with('success', 'Data Berhasil ditambahkan');
+        return redirect()->route('harga.create')->with('success', 'Data Berhasil ditambahkan');
     }
 
     public function edit(Harga $harga)
@@ -123,7 +124,7 @@ class HargaController extends Controller
     public function delete(Harga $harga){
         $harga->delete();
 
-        return redirect()->route('harga.index')->with('success', 'Data Berhasil dihapus');
+        return redirect()->route('harga.index',"?tahun=2022")->with('success', 'Data Berhasil dihapus');
     }
 
     public function chart(Request $request){
