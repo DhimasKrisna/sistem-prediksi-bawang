@@ -41,13 +41,14 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Harap Login pada Sistem</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Sistem Perkiraan Harga Bawang Merah</h1>
+                                        <h6 class="h6 text-gray-900 mb-4">Harap login pada sistem</h6>
                                     </div>
 
                                     <form class="user" action="{{route('login.process')}}" method="post">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="username" class="h4 text-gray-900 mb-2">Username</label>
+                                            <label for="username" class="h5 text-gray-900 mb-2">Username</label>
                                             <input type="text" class="form-control form-control-user" id="username" name="username" value="{{old('username')}}">
                                             @error('username')
                                                 <small class="text-danger">{{$message}}</small>
@@ -55,7 +56,7 @@
                                         </div>
                         
                                         <div class="mb-3">
-                                            <label for="password" class="h4 text-gray-900 mb-2">Password</label>
+                                            <label for="password" class="h5 text-gray-900 mb-2">Password</label>
                                             <input type="password" class="form-control form-control-user" id="password" name="password">
                                             @error('password')
                                                 <small class="text-danger">{{$message}}</small>

@@ -31,8 +31,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/tmpharga', [TmpHargaController::class, 'index'])->name('tmpharga.index');
 
-    Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-    Route::get('/artikel/{artikel}', [ArtikelController::class, 'baca'])->name('artikel.baca');
+    
 
     Route::get('/svr', [SvrController::class, 'index'])->name('svr.index');
 
@@ -63,13 +62,19 @@ Route::group(['middleware' => 'auth'], function(){
         Route::patch('/tmpharga/{tmpharga}/edit', [TmphargaController::class, 'update'])->name('tmpharga.update');
         Route::delete('/tmpharga/{tmpharga}/delete', [TmphargaController::class, 'delete'])->name('tmpharga.delete');
        
-
+        Route::get('/artikel', [ArtikelController::class, 'index'])->withoutMiddleware(['isAdmin'])->name('artikel.index');
+        
         Route::get('/artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
         Route::post('/artikel/create', [ArtikelController::class, 'store'])->name('artikel.store');
+
+        Route::get('/artikel/{artikel}', [ArtikelController::class, 'baca'])->withoutMiddleware(['isAdmin'])->name('artikel.baca');
+
         Route::get('/artikel/{artikel}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
         Route::patch('/artikel/{artikel}/edit', [ArtikelController::class, 'update'])->name('artikel.update');
         Route::delete('/artikel/{artikel}/delete', [ArtikelController::class, 'delete'])->name('artikel.delete');
     });
+    
+    
 });
 
 Route::group(['middleware' => 'guest'], function(){

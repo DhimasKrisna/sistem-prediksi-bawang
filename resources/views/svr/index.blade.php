@@ -27,19 +27,17 @@
         <form id="form-predict" onSubmit="showProgresBar(event)" action="" method="get">
             @csrf
             <div class="mb-3">
-                <label for="tangal" class="form-label">Pilih minggu data yang ingin Diramal</label>
+                <label for="tangal" class="form-label">Diharapkan Crawling Harga terlebih Dahulu sebelum mulai Prediksi!</label>
             </div>
             <input type="hidden" id="minggu" name="minggu" value="">
             <div class="mb3">
-                <button type="button" onclick="predictMinggu(1)" class="btn btn-primary">1 Minggu Depan</button>
-                <button type="button" onclick="predictMinggu(2)" class="btn btn-primary">2 Minggu Depan</button>
-                <button type="button" onclick="predictMinggu(3)" class="btn btn-primary">3 Minggu Depan</button>
+                <button type="button" onclick="predictMinggu(1)" class="btn btn-primary">Perdiksi Harga</button>
             </div>
         </form>
 
         @if ($prediksi)
             <div class="m-0 font-weight-bold text-primary mt-5">
-                <label for="tangal" class="form-label">Hasil Prediksi {{$minggu}} Minggu ke depan adalah {{$prediksi}}</label>
+                <label for="tangal" class="form-label">Hasil Prediksi adalah Rp.{{$prediksi}}</label>
             </div>
         @endif
         
@@ -68,7 +66,7 @@
                 @forelse ($hargas as $harga)
                 <tr>
                     <td>{{ $loop->index+1 }}</td>
-                    <td>{{ $harga->tanggal }}</td>
+                    <td>{{ Illuminate\Support\Carbon::parse($harga->tanggal)->isoFormat('dddd, DD-MM-YYYY') }}</td>
                     <td>{{ $harga->minggu }}</td>
                     <td>{{ $harga->harga }}</td>
                     
