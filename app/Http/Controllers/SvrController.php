@@ -21,7 +21,7 @@ class SvrController extends Controller
         
 
         if($request->minggu){
-            $hargas = Harga::where('tahun', Carbon::now()->year)->orderBy('minggu', 'desc')->get();
+            // $hargas = Harga::where('tahun', Carbon::now()->year)->orderBy('minggu', 'desc')->get();
 
             // $samples = [];
             // $targets = [];
@@ -33,22 +33,7 @@ class SvrController extends Controller
 
             //2 test
 
-            // $hargas = TmpHarga::orderBy('tanggal', 'desc')->limit(60)->get();
-
-            // $samples = [];
-            // $targets = [];
-
-            // foreach($hargas as $harga ){
-            //     $tanggal = Carbon::parse($harga->tanggal);
-            //     $samples[] = [$tanggal->weekOfYear, $tanggal->year, $tanggal->month];
-            //     $targets[] = $harga->harga;
-            // }
-            //2 test
-
-            //test mape
-
-            // $hargas = TmpHarga::where('tanggal', '<' , '2021-01-11' )->orderBy('tanggal', 'desc')->limit(60)->get();
-            //
+            $hargas = TmpHarga::orderBy('tanggal', 'desc')->limit(60)->get();
 
             $samples = [];
             $targets = [];
@@ -58,6 +43,21 @@ class SvrController extends Controller
                 $samples[] = [$tanggal->weekOfYear, $tanggal->year, $tanggal->month];
                 $targets[] = $harga->harga;
             }
+            //2 test
+
+            //test mape
+
+            // $hargas = TmpHarga::where('tanggal', '<' , '2021-01-11' )->orderBy('tanggal', 'desc')->limit(60)->get();
+            //
+
+            // $samples = [];
+            // $targets = [];
+
+            // foreach($hargas as $harga ){
+            //     $tanggal = Carbon::parse($harga->tanggal);
+            //     $samples[] = [$tanggal->weekOfYear, $tanggal->year, $tanggal->month];
+            //     $targets[] = $harga->harga;
+            // }
 
             //
 
