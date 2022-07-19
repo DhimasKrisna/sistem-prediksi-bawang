@@ -56,7 +56,7 @@ class TmpHargaController extends Controller
             'tanggal' => 'required|date',
             'harga' => 'required'
         ]);
-        $hargaLama = TmpHarga::where('tanggal', $request->tanggal->first());
+        $hargaLama = TmpHarga::where('tanggal', $request->tanggal)->first();
 
         if($hargaLama){
             $hargaLama->tanggal = $request->tanggal;

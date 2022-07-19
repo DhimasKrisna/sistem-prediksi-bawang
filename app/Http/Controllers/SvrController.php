@@ -47,8 +47,8 @@ class SvrController extends Controller
 
             //test mape
 
-            // $hargas = TmpHarga::where('tanggal', '<' , '2021-01-11' )->orderBy('tanggal', 'desc')->limit(60)->get();
-            //
+            // $hargas = TmpHarga::where('tanggal', '<' , '2021-06-14' )->orderBy('tanggal', 'desc')->limit(60)->get();
+            
 
             // $samples = [];
             // $targets = [];
@@ -59,7 +59,7 @@ class SvrController extends Controller
             //     $targets[] = $harga->harga;
             // }
 
-            //
+            //test mape
 
             
             
@@ -71,7 +71,7 @@ class SvrController extends Controller
             $regression->train($samples, $targets);
 
             //test mape
-            // $tanggalPrediksi = Carbon::createFromFormat('Y-m-d', '2021-01-11')->addWeek($request->minggu);
+            // $tanggalPrediksi = Carbon::createFromFormat('Y-m-d', '2021-06-14')->addWeek($request->minggu);
             // $mingguPrediksi = $tanggalPrediksi->weekOfYear;
             // $tahunPrediksi = $tanggalPrediksi->year;
             // $bulanPrediksi = $tanggalPrediksi->month;
@@ -102,7 +102,7 @@ class SvrController extends Controller
             // dd($mingguPrediksi, $tahunPrediksi, $bulanPrediksi);
             $prediksi = $regression->predict([$mingguPrediksi, $bulanPrediksi, $tahunPrediksi]);
 
-            //
+            //2
 
             $data = [
                 'hargas' => $hargaTable,
