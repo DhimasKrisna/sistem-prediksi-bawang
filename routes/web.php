@@ -19,7 +19,7 @@ use App\Http\Controllers\TmpHargaController;
 |
 */
 
-Route::get('/', function () {return view('welcome');});
+Route::get('/', function () {return redirect()->route('login.index');});
 //
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
