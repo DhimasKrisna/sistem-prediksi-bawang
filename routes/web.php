@@ -22,7 +22,6 @@ use App\Http\Controllers\TmpHargaController;
 Route::get('/', function () {return redirect()->route('login.index');});
 //
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
@@ -30,8 +29,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/hargaChart', [HargaController::class, 'chart'])->name('harga.chart');
 
     Route::get('/tmpharga', [TmpHargaController::class, 'index'])->name('tmpharga.index');
-
-    
 
     Route::get('/svr', [SvrController::class, 'index'])->name('svr.index');
 
@@ -41,6 +38,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
     
     Route::group(['middleware' => 'isAdmin'], function(){
+        Route::get('/user', [UserController::class, 'index'])->name('user.index');
         Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
         Route::post('/user/create', [UserController::class, 'store'])->name('user.store');
         Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
