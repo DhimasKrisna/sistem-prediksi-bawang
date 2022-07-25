@@ -10,7 +10,7 @@ class ArtikelController extends Controller
     //
     public function index()
     {
-        $artikel = Artikel::with(["getPengisi"])->get();
+        $artikel = Artikel::with(["getUser"])->get();
 
         $data = [
             'artikels' => $artikel
@@ -21,7 +21,7 @@ class ArtikelController extends Controller
 
     public function baca(Artikel $artikel)
     {
-        $artikel = Artikel::with(["getPengisi"])->find($artikel->id);
+        $artikel = Artikel::with(["getUser"])->find($artikel->id);
 
         $data = [
             'artikel' => $artikel
@@ -49,7 +49,7 @@ class ArtikelController extends Controller
         $artikel = new Artikel;
         $artikel->judul = $request->judul;
         $artikel->isi = $request->isi;
-        $artikel->pengisi = auth()->user()->id;
+        $artikel->user_id = auth()->user()->id;
         // dd($artikel);
         $artikel->save();
 
@@ -78,7 +78,7 @@ class ArtikelController extends Controller
 
         $artikel->judul = $request->judul;
         $artikel->isi = $request->isi;
-        $artikel->pengisi = auth()->user()->id;
+        $artikel->user_id = auth()->user()->id;
         // dd($artikel);
         $artikel->save();
 

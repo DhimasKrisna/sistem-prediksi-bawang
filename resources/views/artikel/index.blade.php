@@ -28,7 +28,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Judul</th>
-                    <th scope="col">Pengisi</th>
+                    <th scope="col">User Pengisi</th>
                     <th scope="col">Isi</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -38,8 +38,8 @@
                 <tr>
                     <td>{{ $loop->index+1 }}</td>
                     <td>{{ $artikel->judul }}</td>
-                    <td>{{ $artikel->getPengisi->username }}</td>
-                    <td style="max-width:400px" >{{ Illuminate\Support\Str::words($artikel->isi, 20)."..."  }}</td>
+                    <td>{{ $artikel->getUser->username }}</td>
+                    <td style="max-width:300px" >{{ Illuminate\Support\Str::words($artikel->isi, 20)."..."  }}</td>
                         <td>
                             <a href="{{route('artikel.baca',$artikel->id)}}" class="btn btn-primary">Lihat</a>
                             @if (auth()->user()->role == "admin")

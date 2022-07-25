@@ -10,11 +10,11 @@ class Artikel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'judul', 'isi', 'pengisi',
+        'judul', 'isi', 'user_id',
     ];
 
-    public function getPengisi()
+    public function getUser()
     {
-        return $this->belongsTo(User::class,"pengisi");
+        return $this->belongsTo(User::class,"user_id");
     }
 }

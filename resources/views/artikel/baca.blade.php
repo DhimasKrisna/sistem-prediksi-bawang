@@ -8,7 +8,7 @@
 
         <div class="card-body">
             <h2 class="text-center text-dark">{{$artikel->judul}}</h2>
-            <h4 class="text-center text-dark mb-3">Ditulis oleh : {{$artikel->getPengisi->username}}</h4>
+            <h4 class="text-center text-dark mb-3">Ditulis oleh : {{$artikel->getuser->username}}</h4>
             <p class="text-dark">{{$artikel->isi}}</p>
         </div>
 

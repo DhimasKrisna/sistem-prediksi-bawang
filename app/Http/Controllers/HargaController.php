@@ -76,7 +76,7 @@ class HargaController extends Controller
         $harga->bulan = $tmp->month;
         $harga->minggu = $tmp->weekOfYear;
         $harga->harga = $request->harga;
-        $harga->pengisi = auth()->user()->id;
+        $harga->user_id = auth()->user()->id;
         // dd($harga);
         $harga->save();
 
@@ -109,7 +109,7 @@ class HargaController extends Controller
         $harga->bulan = $tmp->month;
         $harga->minggu = $tmp->weekOfYear;
         $harga->harga = $request->harga;
-        $harga->pengisi = auth()->user()->id;
+        $harga->user_id = auth()->user()->id;
         // dd($harga);
         $harga->save();
 

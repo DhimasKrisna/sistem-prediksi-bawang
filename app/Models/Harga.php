@@ -10,12 +10,12 @@ class Harga extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tanggal', 'harga', 'pengisi',
+        'tanggal', 'harga', 'user_id',
     ];
 
-    public function pengisi()
+    public function getUser()
     {
-        return $this->belongsTo('App\Model\User');
+        return $this->belongsTo(User::class,"user_id");
     }
 
 
