@@ -21,15 +21,6 @@ class SvrController extends Controller
         
 
         if($request->minggu){
-            // $hargas = Harga::where('tahun', Carbon::now()->year)->orderBy('minggu', 'desc')->get();
-
-            // $samples = [];
-            // $targets = [];
-
-            // foreach($hargas as $harga){
-            //     $samples[] = [$harga->minggu, $harga->bulan, $harga->tahun];
-            //     $targets[] = $harga->harga;
-            // }
 
             //2 test Benar
 
@@ -45,9 +36,9 @@ class SvrController extends Controller
             }
             //2 test Benar
 
-            // // test mape
+            // // TEST MAPE
 
-            // $hargas = TmpHarga::where('tanggal', '<' , '2022-07-11' )->orderBy('tanggal', 'desc')->limit(60)->get();
+            // $hargas = TmpHarga::where('tanggal', '<' , '2022-08-8' )->orderBy('tanggal', 'desc')->limit(60)->get();
             
 
             // $samples = [];
@@ -59,10 +50,8 @@ class SvrController extends Controller
             //     $targets[] = $harga->harga;
             // }
 
-            // // test mape
+            // // TEST MAPE
 
-            
-            
             // $regression = new SVR(Kernel::RBF, $degree = 3, $epsilon=0.01, $cost=1000);
 
             $regression = new SVR(Kernel::RBF, $degree = 3, $epsilon=0.01, $cost=0.00007);
@@ -70,27 +59,17 @@ class SvrController extends Controller
             // $regression = new SVR(Kernel::RBF);
             $regression->train($samples, $targets);
 
-            // //test mape
-            // $tanggalPrediksi = Carbon::createFromFormat('Y-m-d', '2021-07-11')->addWeek($request->minggu);
+            // //TEST MAPE
+            // $tanggalPrediksi = Carbon::createFromFormat('Y-m-d', '2021-08-8')->addWeek($request->minggu);
             // $mingguPrediksi = $tanggalPrediksi->weekOfYear;
             // $tahunPrediksi = $tanggalPrediksi->year;
             // $bulanPrediksi = $tanggalPrediksi->month;
 
             // // dd($mingguPrediksi, $tahunPrediksi, $bulanPrediksi);
             // $prediksi = $regression->predict([$mingguPrediksi, $bulanPrediksi, $tahunPrediksi]);
-            // dd($prediksi);
-
-            // //test mape
-
-            // dd($regression->predict([29, 7, 2022]));
             
-            // $tanggalPrediksi = Carbon::now()->addWeek($request->minggu);
-            // $mingguPrediksi = $tanggalPrediksi->weekOfYear;
-            // $tahunPrediksi = $tanggalPrediksi->year;
-            // $bulanPrediksi = $tanggalPrediksi->month;
 
-            // // dd($mingguPrediksi, $tahunPrediksi, $bulanPrediksi);
-            // $prediksi = $regression->predict([$mingguPrediksi, $bulanPrediksi, $tahunPrediksi]);
+            // //TEST MAPE
 
             //2
 
@@ -103,6 +82,37 @@ class SvrController extends Controller
             $prediksi = $regression->predict([$mingguPrediksi, $bulanPrediksi, $tahunPrediksi]);
 
             //2
+
+            //revisi
+            $checkPrediksi = abs($prediksi-$hargas->first()->harga);
+
+            if($checkPrediksi > 5000){
+                $max = $prediksi-$hargas->first()->harga + 5000;
+                $min = $prediksi-$hargas->first()->harga - 5000;
+
+                $hargasRange = TmpHarga::whereBetween('harga', [$min,$max])->orderBy('tanggal', 'desc')->limit(60)->get();
+                // dd($hargasRange);
+
+                // //TEST MAPE
+                // $hargasRange = TmpHarga::where('tanggal', '<' , '2022-08-8' )->whereBetween('harga', [$min,$max])->orderBy('tanggal', 'desc')->limit(60)->get();
+
+                // //TEST MAPE
+
+                $samples = [];
+                $targets = [];
+
+                foreach($hargasRange as $harga ){
+                    $tanggal = Carbon::parse($harga->tanggal);
+                    $samples[] = [$tanggal->weekOfYear, $tanggal->year, $tanggal->month];
+                    $targets[] = $harga->harga;
+                }
+
+                $regression->train($samples, $targets);
+                $prediksi = $regression->predict([$mingguPrediksi, $bulanPrediksi, $tahunPrediksi]);
+            }
+
+            // dd($prediksi);
+
 
             $data = [
                 'hargas' => $hargaTable,
